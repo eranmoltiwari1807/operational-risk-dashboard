@@ -171,7 +171,7 @@ if ticker:
         st.markdown(f"""
         <div class="card">
         <p>
-        {' '.join(summary.split()[:300])}
+        {' '.join(summary.split()[:100])}
         </p>
         </div>
         """, unsafe_allow_html=True)

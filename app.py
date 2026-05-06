@@ -363,9 +363,6 @@ if ticker:
     • Control Effectiveness: {control:.1f}%
     """)
 
-
----
-
 # ✅ Your file should end like THIS:
 
 ```python id="o95d6y"

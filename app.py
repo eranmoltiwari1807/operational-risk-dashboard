@@ -161,16 +161,23 @@ except:
         """, unsafe_allow_html=True)
 
     with col2:
-        summary = info.get("longBusinessSummary", "No data")
 
-        st.markdown(f"""
-        <div class="card">
-        <p>
-        {summary}
-        </p>
-        </div>
-        """, unsafe_allow_html=True)
+    summary = info.get("longBusinessSummary")
 
+    if not summary or summary == "No data":
+        summary = f"""
+        {name} operates across global markets and is being analyzed using
+        volatility-driven operational risk indicators, ICT proxy metrics,
+        compliance risk modeling, and resilience analytics.
+        """
+
+    st.markdown(f"""
+    <div class="card">
+    <p>
+    {summary}
+    </p>
+    </div>
+    """, unsafe_allow_html=True)
     # =========================
     # CALCULATIONS
     # =========================

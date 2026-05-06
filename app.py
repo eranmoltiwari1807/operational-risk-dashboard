@@ -131,7 +131,7 @@ if ticker:
 
     with col2:
       st.markdown(f"""
-<div class="card">
+<div class="card" style="max-height:220px; overflow-y:auto;">
 <p>{info.get("longBusinessSummary","No data")}</p>
 </div>
 """, unsafe_allow_html=True)

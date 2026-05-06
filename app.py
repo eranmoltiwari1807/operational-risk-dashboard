@@ -149,27 +149,34 @@ except:
     }
    # =========================
 # =========================
-# PROFILE
-# =========================
-col1, col2 = st.columns([1,2])
+       # =========================
+    # PROFILE
+    # =========================
+    col1, col2 = st.columns([1,2])
 
-with col1:
-    st.markdown(f"""
-    <div class="card">
-    <h3>{name}</h3>
-    <p><b>Sector:</b> {sector}</p>
-    <p><b>Country:</b> {country}</p>
-    </div>
-    """, unsafe_allow_html=True)
+    with col1:
+        st.markdown(f"""
+        <div class="card">
+        <h3>{name}</h3>
+        <p><b>Sector:</b> {sector}</p>
+        <p><b>Country:</b> {country}</p>
+        </div>
+        """, unsafe_allow_html=True)
 
-with col2:
-    st.markdown(f"""
-    <div class="card">
-    <p>
-    {info.get("longBusinessSummary", f"{name} operates across global markets and is being analyzed using operational risk and volatility-based proxy indicators.")}
-    </p>
-    </div>
-    """, unsafe_allow_html=True)
+    with col2:
+
+        summary = info.get(
+            "longBusinessSummary",
+            f"{name} operates across global markets and is being analyzed using operational risk and volatility-based proxy indicators."
+        )
+
+        st.markdown(f"""
+        <div class="card">
+        <p>
+        {summary}
+        </p>
+        </div>
+        """, unsafe_allow_html=True)
     # CALCULATIONS
     # =========================
     data["Returns"] = data["Close"].pct_change()

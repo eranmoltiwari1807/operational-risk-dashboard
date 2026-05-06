@@ -95,7 +95,11 @@ def resolve_ticker(x):
 ticker = resolve_ticker(user_input)
 
 st.caption(f"🔎 Using ticker: {ticker}")
-
+st.markdown(f"""
+<div class="card">
+<p>{info.get("longBusinessSummary","No data")}</p>
+</div>
+""", unsafe_allow_html=True)
 # =========================
 # MAIN
 # =========================

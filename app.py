@@ -129,19 +129,19 @@ if ticker:
         </div>
         """, unsafe_allow_html=True)
 
-    with col2:
-   st.markdown(f"""
-<div class="card" style="
-    max-height:140px;
-    overflow-y:auto;
-    padding:18px;
-    line-height:1.6;
-">
-<p>
-{info.get("longBusinessSummary","No data")}
-</p>
-</div>
-""", unsafe_allow_html=True)
+  with col2:
+    st.markdown(f"""
+    <div class="card" style="
+        max-height:140px;
+        overflow-y:auto;
+        padding:18px;
+        line-height:1.6;
+    ">
+    <p>
+    {info.get("longBusinessSummary","No data")}
+    </p>
+    </div>
+    """, unsafe_allow_html=True)
 
     # =========================
     # CALCULATIONS

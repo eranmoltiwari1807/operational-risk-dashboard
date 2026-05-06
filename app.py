@@ -141,23 +141,29 @@ with col2:
     </p>
     </div>
     """, unsafe_allow_html=True)
-    # CALCULATIONS
-    # =========================
-    data["Returns"]=data["Close"].pct_change()
-    volatility=data["Returns"].std()*100
-    data["MA30"]=data["Close"].rolling(30).mean()
 
-    trend = "Upward 📈" if data["Close"].iloc[-1] > data["Close"].iloc[0] else "Downward 📉"
+# =========================
+# CALCULATIONS
+# =========================
+data["Returns"] = data["Close"].pct_change()
+volatility = data["Returns"].std() * 100
+data["MA30"] = data["Close"].rolling(30).mean()
 
-    ict=int(volatility*2)
-    downtime=round(volatility*1.5,2)
-    control=max(0,100-volatility*2)
+trend = "Upward 📈" if data["Close"].iloc[-1] > data["Close"].iloc[0] else "Downward 📉"
 
-    score=round(volatility*0.6 + ict*0.3,2)
+ict = int(volatility * 2)
+downtime = round(volatility * 1.5, 2)
+control = max(0, 100 - volatility * 2)
 
-    if score<2: level="Low"
-    elif score<4: level="Medium"
-    else: level="High"
+score = round(volatility * 0.6 + ict * 0.3, 2)
+
+if score < 2:
+    level = "Low"
+elif score < 4:
+    level = "Medium"
+else:
+    level = "High"
+
 
     # =========================
     # ALERT

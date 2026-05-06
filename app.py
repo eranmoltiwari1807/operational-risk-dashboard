@@ -120,28 +120,16 @@ if ticker:
   # =========================
 # PROFILE
 # =========================
+# PROFILE
+# =========================
 col1, col2 = st.columns([1,2])
-
-# 🌍 COUNTRY FLAG MAP
-flag_map = {
-    "United States": "🇺🇸",
-    "Germany": "🇩🇪",
-    "France": "🇫🇷",
-    "Luxembourg": "🇱🇺",
-    "United Kingdom": "🇬🇧",
-    "India": "🇮🇳",
-    "Netherlands": "🇳🇱",
-    "Switzerland": "🇨🇭"
-}
-
-flag = flag_map.get(country, "🌍")
 
 with col1:
     st.markdown(f"""
     <div class="card">
     <h3>{name}</h3>
     <p><b>Sector:</b> {sector}</p>
-    <p><b>Country:</b> {flag} {country}</p>
+    <p><b>Country:</b> {country}</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -157,7 +145,7 @@ with col2:
     {info.get("longBusinessSummary","No data")}
     </p>
     </div>
-    """, unsafe_allow_html=True)  # =========================
+    """, unsafe_allow_html=True)
     # CALCULATIONS
     # =========================
     data["Returns"]=data["Close"].pct_change()

@@ -118,18 +118,35 @@ if ticker:
     # =========================
     # PROFILE
     # =========================
-    col1, col2 = st.columns([1,2])
+  # =========================
+# PROFILE
+# =========================
+col1, col2 = st.columns([1,2])
 
-    with col1:
-        st.markdown(f"""
-        <div class="card">
-        <h3>{name}</h3>
-        <p><b>Sector:</b> {sector}</p>
-        <p><b>Country:</b> {country}</p>
-        </div>
-        """, unsafe_allow_html=True)
+# 🌍 COUNTRY FLAG
+flag_map = {
+    "United States": "🇺🇸",
+    "Germany": "🇩🇪",
+    "France": "🇫🇷",
+    "Luxembourg": "🇱🇺",
+    "United Kingdom": "🇬🇧",
+    "India": "🇮🇳",
+    "Netherlands": "🇳🇱",
+    "Switzerland": "🇨🇭"
+}
 
-  with col2:
+flag = flag_map.get(country, "🌍")
+
+with col1:
+    st.markdown(f"""
+    <div class="card">
+    <h3>{name}</h3>
+    <p><b>Sector:</b> {sector}</p>
+    <p><b>Country:</b> {flag} {country}</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
     st.markdown(f"""
     <div class="card" style="
         max-height:140px;

@@ -364,8 +364,6 @@ if ticker:
     """)
 
 # ✅ Your file should end like THIS:
-
-```python id="o95d6y"
 # FOOTER
 st.markdown("---")
 st.markdown("<p style='text-align:center;'>Operational Risk Dashboard</p>", unsafe_allow_html=True)

@@ -95,7 +95,6 @@ def resolve_ticker(x):
 ticker = resolve_ticker(user_input)
 
 st.caption(f"🔎 Using ticker: {ticker}")
-""", unsafe_allow_html=True)
 # =========================
 # MAIN
 # =========================

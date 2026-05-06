@@ -117,7 +117,7 @@ if ticker:
 
     # =========================
     # PROFILE
- # =========================
+# =========================
 # PROFILE
 # =========================
 col1, col2 = st.columns([1,2])
@@ -132,10 +132,12 @@ with col1:
     """, unsafe_allow_html=True)
 
 with col2:
+    summary = info.get("longBusinessSummary", "No data")
+
     st.markdown(f"""
     <div class="card">
     <p>
-    {info.get("longBusinessSummary","No data")}
+    {summary}
     </p>
     </div>
     """, unsafe_allow_html=True)

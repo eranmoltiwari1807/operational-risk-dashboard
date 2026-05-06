@@ -130,11 +130,11 @@ if ticker:
         """, unsafe_allow_html=True)
 
     with col2:
-        st.markdown(f"""
-        <div class="card">
-        <p>{info.get("longBusinessSummary","No data")[:250]}...</p>
-        </div>
-        """, unsafe_allow_html=True)
+      st.markdown(f"""
+<div class="card">
+<p>{info.get("longBusinessSummary","No data")}</p>
+</div>
+""", unsafe_allow_html=True)
 
     # =========================
     # CALCULATIONS

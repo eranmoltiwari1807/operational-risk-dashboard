@@ -148,34 +148,25 @@ except:
         "marketCap": 0
     }
    # =========================
+# =========================
 # PROFILE
 # =========================
-col1, col2 = st.columns([1, 2])
+col1, col2 = st.columns([1,2])
 
 with col1:
     st.markdown(f"""
     <div class="card">
-    <h2>{name}</h2>
+    <h3>{name}</h3>
     <p><b>Sector:</b> {sector}</p>
     <p><b>Country:</b> {country}</p>
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
-
-    summary = info.get("longBusinessSummary")
-
-    if not summary or summary == "No data":
-        summary = f"""
-        {name} operates across global markets and is being analyzed using
-        volatility-driven operational risk indicators, ICT proxy metrics,
-        compliance risk modeling, and resilience analytics.
-        """
-
     st.markdown(f"""
     <div class="card">
     <p>
-    {summary}
+    {info.get("longBusinessSummary", f"{name} operates across global markets and is being analyzed using operational risk and volatility-based proxy indicators.")}
     </p>
     </div>
     """, unsafe_allow_html=True)

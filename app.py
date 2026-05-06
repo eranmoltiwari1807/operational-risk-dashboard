@@ -367,5 +367,3 @@ if ticker:
 # FOOTER
 st.markdown("---")
 st.markdown("<p style='text-align:center;'>Operational Risk Dashboard</p>", unsafe_allow_html=True)
-```
-

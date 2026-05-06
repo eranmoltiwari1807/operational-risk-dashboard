@@ -147,20 +147,21 @@ except:
     info = {
         "marketCap": 0
     }
-    # PROFILE
-    # =========================
-    col1, col2 = st.columns([1,2])
+   # =========================
+# PROFILE
+# =========================
+col1, col2 = st.columns([1, 2])
 
-    with col1:
-        st.markdown(f"""
-        <div class="card">
-        <h3>{name}</h3>
-        <p><b>Sector:</b> {sector}</p>
-        <p><b>Country:</b> {country}</p>
-        </div>
-        """, unsafe_allow_html=True)
+with col1:
+    st.markdown(f"""
+    <div class="card">
+    <h2>{name}</h2>
+    <p><b>Sector:</b> {sector}</p>
+    <p><b>Country:</b> {country}</p>
+    </div>
+    """, unsafe_allow_html=True)
 
-   with col2:
+with col2:
 
     summary = info.get("longBusinessSummary")
 
@@ -178,7 +179,6 @@ except:
     </p>
     </div>
     """, unsafe_allow_html=True)
-    # =========================
     # CALCULATIONS
     # =========================
     data["Returns"] = data["Close"].pct_change()

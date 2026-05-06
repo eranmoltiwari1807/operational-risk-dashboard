@@ -67,12 +67,17 @@ RED = "#EF4444"
 # HEADER
 # =========================
 st.markdown("<h1 style='text-align:center;'>🧠 Operational Risk Dashboard</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align:center;'>Anmol Tiwari | NFR | Operational Resilience</p>", unsafe_allow_html=True)
 
 st.markdown(
-"<p style='text-align:center; font-size:13px; color:gray; max-width:800px; margin:auto;'>"
-"Market data is sourced from Yahoo Finance, and operational risk indicators are derived using proxy models based on volatility."
-"</p>", unsafe_allow_html=True
+    "<p style='text-align:center;'>Anmol Tiwari | NFR | Operational Resilience</p>",
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    "<p style='text-align:center; font-size:13px; color:gray; max-width:800px; margin:auto;'>"
+    "Market data is sourced from Yahoo Finance, and operational risk indicators are derived using proxy models based on volatility."
+    "</p>",
+    unsafe_allow_html=True
 )
 
 st.divider()
@@ -94,10 +99,10 @@ def resolve_ticker(x):
         "bmw": "BMW.DE",
         "siemens": "SIE.DE"
     }
+
     return mapping.get(x.lower().strip(), x.upper())
 
 
-# Resolve ticker
 ticker = resolve_ticker(user_input)
 
 st.caption(f"🔎 Using ticker: {ticker}")
@@ -118,38 +123,37 @@ if ticker:
     ticker_obj = yf.Ticker(ticker)
 
     # =========================
-    ticker_obj = yf.Ticker(ticker)
+    # SAFE COMPANY INFO
+    # =========================
+    try:
+        info = ticker_obj.info
 
-try:
-    info = ticker_obj.info
+        name = info.get("longName", ticker)
+        sector = info.get("sector", "Technology")
+        country = info.get("country", "United States")
 
-    name = info.get("longName", ticker)
-    sector = info.get("sector", "Technology")
-    country = info.get("country", "United States")
-    summary = info.get(
-        "longBusinessSummary",
-        f"{ticker} operates in global financial and technology markets."
-    )
+        summary = info.get(
+            "longBusinessSummary",
+            f"{ticker} operates in global financial and technology markets."
+        )
 
-except:
+    except:
 
-    # FALLBACK VALUES
-    name = ticker
-    sector = "Technology"
-    country = "United States"
+        name = ticker
+        sector = "Technology"
+        country = "United States"
 
-    summary = (
-        f"{ticker} company information is temporarily unavailable "
-        f"due to Yahoo Finance rate limits. "
-        f"Market analytics and operational risk calculations are still active."
-    )
+        summary = (
+            f"{ticker} company information is temporarily unavailable "
+            f"due to Yahoo Finance rate limits. "
+            f"Market analytics and operational risk calculations are still active."
+        )
 
-    info = {
-        "marketCap": 0
-    }
-   # =========================
-# =========================
-       # =========================
+        info = {
+            "marketCap": 0
+        }
+
+    # =========================
     # PROFILE
     # =========================
     col1, col2 = st.columns([1,2])
@@ -164,12 +168,6 @@ except:
         """, unsafe_allow_html=True)
 
     with col2:
-
-        summary = info.get(
-            "longBusinessSummary",
-            f"{name} operates across global markets and is being analyzed using operational risk and volatility-based proxy indicators."
-        )
-
         st.markdown(f"""
         <div class="card">
         <p>
@@ -177,24 +175,36 @@ except:
         </p>
         </div>
         """, unsafe_allow_html=True)
+
+    # =========================
     # CALCULATIONS
     # =========================
     data["Returns"] = data["Close"].pct_change()
+
     volatility = data["Returns"].std() * 100
+
     data["MA30"] = data["Close"].rolling(30).mean()
 
-    trend = "Upward 📈" if data["Close"].iloc[-1] > data["Close"].iloc[0] else "Downward 📉"
+    trend = (
+        "Upward 📈"
+        if data["Close"].iloc[-1] > data["Close"].iloc[0]
+        else "Downward 📉"
+    )
 
     ict = int(volatility * 2)
+
     downtime = round(volatility * 1.5, 2)
+
     control = max(0, 100 - volatility * 2)
 
     score = round(volatility * 0.6 + ict * 0.3, 2)
 
     if score < 2:
         level = "Low"
+
     elif score < 4:
         level = "Medium"
+
     else:
         level = "High"
 
@@ -203,8 +213,10 @@ except:
     # =========================
     if level == "High":
         st.error("🚨 HIGH RISK")
+
     elif level == "Medium":
         st.warning("⚠️ Moderate Risk")
+
     else:
         st.success("✅ Low Risk")
 
@@ -235,9 +247,21 @@ except:
         """
 
     k1.markdown(kpi("Risk Score", score, level), unsafe_allow_html=True)
-    k2.markdown(kpi("Volatility", f"{volatility:.2f}%", level), unsafe_allow_html=True)
-    k3.markdown(kpi("Trend", trend, "Low" if "Upward" in trend else "High"), unsafe_allow_html=True)
-    k4.markdown(kpi("Risk Level", level, level), unsafe_allow_html=True)
+
+    k2.markdown(
+        kpi("Volatility", f"{volatility:.2f}%", level),
+        unsafe_allow_html=True
+    )
+
+    k3.markdown(
+        kpi("Trend", trend, "Low" if "Upward" in trend else "High"),
+        unsafe_allow_html=True
+    )
+
+    k4.markdown(
+        kpi("Risk Level", level, level),
+        unsafe_allow_html=True
+    )
 
     # =========================
     # CHART + KRI
@@ -248,17 +272,21 @@ except:
 
         fig = go.Figure()
 
-        fig.add_trace(go.Scatter(
-            x=data.index,
-            y=data["Close"],
-            name="Price"
-        ))
+        fig.add_trace(
+            go.Scatter(
+                x=data.index,
+                y=data["Close"],
+                name="Price"
+            )
+        )
 
-        fig.add_trace(go.Scatter(
-            x=data.index,
-            y=data["MA30"],
-            name="MA30"
-        ))
+        fig.add_trace(
+            go.Scatter(
+                x=data.index,
+                y=data["MA30"],
+                name="MA30"
+            )
+        )
 
         fig.update_layout(template="plotly")
 
@@ -275,9 +303,20 @@ except:
             </div>
             """
 
-        st.markdown(kri("ICT Incidents", ict, RED), unsafe_allow_html=True)
-        st.markdown(kri("Downtime", downtime, ORANGE), unsafe_allow_html=True)
-        st.markdown(kri("Control Effectiveness", f"{control:.1f}%", GREEN), unsafe_allow_html=True)
+        st.markdown(
+            kri("ICT Incidents", ict, RED),
+            unsafe_allow_html=True
+        )
+
+        st.markdown(
+            kri("Downtime", downtime, ORANGE),
+            unsafe_allow_html=True
+        )
+
+        st.markdown(
+            kri("Control Effectiveness", f"{control:.1f}%", GREEN),
+            unsafe_allow_html=True
+        )
 
     # =========================
     # DORA REGISTER
@@ -286,8 +325,16 @@ except:
 
     market_cap = info.get("marketCap", 0)
 
-    if country in ["Germany", "France", "Luxembourg", "Netherlands", "Italy", "Spain"]:
+    if country in [
+        "Germany",
+        "France",
+        "Luxembourg",
+        "Netherlands",
+        "Italy",
+        "Spain"
+    ]:
         region = "EU (DORA Applicable)"
+
     else:
         region = "Non-EU"
 
@@ -295,13 +342,16 @@ except:
 
     if market_cap > 200_000_000_000:
         size_factor = 3
+
     elif market_cap > 50_000_000_000:
         size_factor = 2
+
     else:
         size_factor = 1
 
     risk_df = pd.DataFrame({
         "Framework": ["DORA", "DORA", "GDPR", "Operational", "ICT"],
+
         "Risk Type": [
             "ICT Third-Party Risk",
             "Operational Resilience Failure",
@@ -309,9 +359,25 @@ except:
             "Business Continuity Failure",
             "Cybersecurity Incident"
         ],
+
         "Region": [region] * 5,
-        "Likelihood": [vol_factor, max(1, vol_factor - 1), 2, 2, vol_factor],
-        "Impact": [size_factor, size_factor, 3, 2, size_factor],
+
+        "Likelihood": [
+            vol_factor,
+            max(1, vol_factor - 1),
+            2,
+            2,
+            vol_factor
+        ],
+
+        "Impact": [
+            size_factor,
+            size_factor,
+            3,
+            2,
+            size_factor
+        ],
+
         "Control Effectiveness": [
             "Needs Improvement",
             "Effective",
@@ -319,6 +385,7 @@ except:
             "Effective",
             "Needs Improvement"
         ],
+
         "Status": [
             "Open",
             "Monitoring",
@@ -328,41 +395,79 @@ except:
         ]
     })
 
-    risk_df["Inherent Score"] = risk_df["Likelihood"] * risk_df["Impact"]
+    risk_df["Inherent Score"] = (
+        risk_df["Likelihood"] * risk_df["Impact"]
+    )
 
     def control_adj(ctrl):
         return 0.5 if ctrl == "Effective" else 0.8
 
     risk_df["Residual Score"] = risk_df.apply(
-        lambda x: x["Inherent Score"] * control_adj(x["Control Effectiveness"]), axis=1
+        lambda x:
+        x["Inherent Score"] *
+        control_adj(x["Control Effectiveness"]),
+        axis=1
     )
 
     def classify(score):
+
         if score >= 6:
             return "High"
+
         elif score >= 3:
             return "Medium"
+
         else:
             return "Low"
 
-    risk_df["Risk Level"] = risk_df["Residual Score"].apply(classify)
-
-    def color_tag(val, color):
-        return f'<span style="background:{color}20;color:{color};padding:6px 12px;border-radius:12px;font-weight:600;">{val}</span>'
-
-    risk_df["Risk Level"] = risk_df["Risk Level"].apply(
-        lambda x: color_tag(x, RED if x == "High" else ORANGE if x == "Medium" else GREEN)
+    risk_df["Risk Level"] = (
+        risk_df["Residual Score"].apply(classify)
     )
 
-    risk_df["Control Effectiveness"] = risk_df["Control Effectiveness"].apply(
-        lambda x: color_tag(x, GREEN if x == "Effective" else ORANGE)
+    def color_tag(val, color):
+
+        return (
+            f'<span style="background:{color}20;'
+            f'color:{color};padding:6px 12px;'
+            f'border-radius:12px;font-weight:600;">'
+            f'{val}</span>'
+        )
+
+    risk_df["Risk Level"] = risk_df["Risk Level"].apply(
+        lambda x:
+        color_tag(
+            x,
+            RED if x == "High"
+            else ORANGE if x == "Medium"
+            else GREEN
+        )
+    )
+
+    risk_df["Control Effectiveness"] = (
+        risk_df["Control Effectiveness"].apply(
+            lambda x:
+            color_tag(
+                x,
+                GREEN if x == "Effective"
+                else ORANGE
+            )
+        )
     )
 
     risk_df["Status"] = risk_df["Status"].apply(
-        lambda x: color_tag(x, RED if x == "Open" else ORANGE if x == "Monitoring" else GREEN)
+        lambda x:
+        color_tag(
+            x,
+            RED if x == "Open"
+            else ORANGE if x == "Monitoring"
+            else GREEN
+        )
     )
 
-    st.write(risk_df.to_html(escape=False, index=False), unsafe_allow_html=True)
+    st.write(
+        risk_df.to_html(escape=False, index=False),
+        unsafe_allow_html=True
+    )
 
     # =========================
     # SUMMARY
@@ -377,7 +482,10 @@ except:
     • Control Effectiveness: {control:.1f}%
     """)
 
-# ✅ Your file should end like THIS:
 # FOOTER
 st.markdown("---")
-st.markdown("<p style='text-align:center;'>Operational Risk Dashboard</p>", unsafe_allow_html=True)
+
+st.markdown(
+    "<p style='text-align:center;'>Operational Risk Dashboard</p>",
+    unsafe_allow_html=True
+)
